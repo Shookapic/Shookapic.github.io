@@ -24,7 +24,7 @@ const Contact = () => {
         </Description>
         <SocialLinks>
           <SocialLink 
-            href="mailto:your.email@example.com" 
+            href="mailto:cedric.roulof@epitech.eu" 
             target="_blank"
             whileHover={{ y: -5 }}
           >
@@ -32,7 +32,7 @@ const Contact = () => {
             <span>{language === 'en' ? "Email" : language === 'fr' ? "Courriel" : "电子邮件"}</span>
           </SocialLink>
           <SocialLink 
-            href="https://github.com/yourusername" 
+            href="https://github.com/Shookapic" 
             target="_blank"
             whileHover={{ y: -5 }}
           >
@@ -40,7 +40,7 @@ const Contact = () => {
             <span>{language === 'en' ? "GitHub" : language === 'fr' ? "GitHub" : "GitHub"}</span>
           </SocialLink>
           <SocialLink 
-            href="https://linkedin.com/in/yourusername" 
+            href="https://www.linkedin.com/in/cédric-roulof-494026258/" 
             target="_blank"
             whileHover={{ y: -5 }}
           >
@@ -48,7 +48,7 @@ const Contact = () => {
             <span>{language === 'en' ? "LinkedIn" : language === 'fr' ? "LinkedIn" : "LinkedIn"}</span>
           </SocialLink>
           <SocialLink 
-            href="https://x.com/yourusername" 
+            href="https://x.com/cedric_rlf" 
             target="_blank"
             whileHover={{ y: -5 }}
           >
