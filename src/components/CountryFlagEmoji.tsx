@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import { 
   CountryCode, 
   countryNameRecord 
@@ -9,7 +9,7 @@ interface CountryFlagEmojiProps {
   code?: CountryCode
 }
 
-export const CountryFlagEmoji = ({ code }: CountryFlagEmojiProps) => {
+export const CountryFlagEmoji: FC<CountryFlagEmojiProps> = ({ code }) => {
   const title = code ? countryNameRecord[code] || code : undefined
   return (
     <span role="img" aria-labelledby={title} title={title}>

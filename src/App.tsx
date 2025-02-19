@@ -5,28 +5,24 @@ import { motion } from 'framer-motion';
 import { AnimatePresence } from 'framer-motion';
 import Particles from 'react-tsparticles';
 import { loadSlim } from 'tsparticles-slim';
-import { ref, onValue } from 'firebase/database';
+import GlobalStyle from './styles/GlobalStyle';
 import Home from './components/Home';
 import Portfolio from './components/Portfolio';
 import Contact from './components/Contact';
-import GlobalStyle from './styles/GlobalStyle';
-import { incrementVisitorCount } from './firebaseConfig';
-import { getDatabase } from 'firebase/database';
-import { LanguageProvider, useLanguage, translations, languageFlags } from './contexts/LanguageContext';
+import { Language, LanguageProvider, useLanguage, translations, languageFlags } from './contexts/LanguageContext';
 import { CountryFlagEmoji } from './components/CountryFlagEmoji';
 
 const App = () => {
   const [glitchEffect, setGlitchEffect] = useState(true);
   const [activeSection, setActiveSection] = useState('home');
-  const [visitorCount, setVisitorCount] = useState(0);
-  const homeRef = useRef<HTMLDivElement>(null);
-  const portfolioRef = useRef<HTMLDivElement>(null);
-  const contactRef = useRef<HTMLDivElement>(null);
+  const homeRef = useRef<HTMLDivElement | null>(null);
+  const portfolioRef = useRef<HTMLDivElement | null>(null);
+  const contactRef = useRef<HTMLDivElement | null>(null);
 
   const { language, setLanguage } = useLanguage();
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
 
-  const handleLanguageChange = (newLanguage: string) => {
+  const handleLanguageChange = (newLanguage: Language) => {
     setLanguage(newLanguage);
     setIsLanguageDropdownOpen(false);
   };
@@ -35,26 +31,11 @@ const App = () => {
     await loadSlim(main);
   };
 
-  const particlesLoaded = (container: any) => {
-    console.log("Particles loaded", container);
+  const particlesLoaded = async (container: ParticlesContainer | undefined) => {
+    if (container) {
+      console.log("Particles loaded", container);
+    }
   };
-
-  useEffect(() => {
-    // Increment visitor count on page load
-    incrementVisitorCount();
-
-    // Fetch visitor count
-    const database = getDatabase();
-    const visitorCountRef = ref(database, 'visitorCount');
-    
-    const unsubscribe = onValue(visitorCountRef, (snapshot) => {
-      const count = snapshot.val() || 0;
-      setVisitorCount(count);
-    });
-
-    // Cleanup subscription
-    return () => unsubscribe();
-  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -62,10 +43,6 @@ const App = () => {
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
-
-  const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
-  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -89,6 +66,12 @@ const App = () => {
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>) => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <Container>
@@ -205,24 +188,19 @@ const App = () => {
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {(Object.keys(languageFlags) as string[])
-                    .filter(lang => lang !== language)
-                    .map(lang => (
-                      <LanguageOption 
-                        key={lang}
-                        onClick={() => handleLanguageChange(lang)}
-                      >
-                        <CountryFlagEmoji code={languageFlags[lang]} /> {lang.toUpperCase()}
-                      </LanguageOption>
+                  {Object.keys(languageFlags).map(lang => (
+                    <LanguageOption 
+                      key={lang}
+                      onClick={() => handleLanguageChange(lang as Language)}
+                    >
+                      <CountryFlagEmoji code={languageFlags[lang as Language]} /> {lang.toUpperCase()}
+                    </LanguageOption>
                   ))}
                 </LanguageDropdown>
               )}
             </AnimatePresence>
           </LanguageSwitcherContainer>
         </Nav>
-        <VisitorCounter>
-          Visitors: {visitorCount}
-        </VisitorCounter>
       </Header>
       <Main>
         <Section ref={homeRef}>
@@ -375,12 +353,6 @@ const Main = styled.main`
 const Section = styled.section`
   scroll-snap-align: start;
   height: 100vh;
-`;
-
-const VisitorCounter = styled.div`
-  color: #00ff95;
-  font-size: 0.9rem;
-  opacity: 0.7;
 `;
 
 const LanguageSwitcherContainer = styled.div`

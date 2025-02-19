@@ -1,6 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import styled from 'styled-components';
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import { SiX } from 'react-icons/si';
 import { useLanguage, translations } from '../contexts/LanguageContext';
@@ -29,7 +28,7 @@ const Contact = () => {
             whileHover={{ y: -5 }}
           >
             <FaEnvelope />
-            <span>{language === 'en' ? "Email" : language === 'fr' ? "Courriel" : "电子邮件"}</span>
+            <span>{language === 'en' ? "Email" : language === 'fr' ? "Email" : "电子邮件"}</span>
           </SocialLink>
           <SocialLink 
             href="https://github.com/Shookapic" 
@@ -139,20 +138,6 @@ const SocialLink = styled(motion.a)`
       width: 200px;
       height: 200px;
     }
-  }
-`;
-
-const BackToTopButton = styled(motion.button)`
-  background: transparent;
-  border: 2px solid #00ff95;
-  color: #00ff95;
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background: #00ff9520;
   }
 `;
 

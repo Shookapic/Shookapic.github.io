@@ -82,21 +82,6 @@ const glitchAnimation = keyframes`
   }
 `;
 
-const scrollAnimation = keyframes`
-  0% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  50% {
-    transform: translateY(10px);
-    opacity: 0.5;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-`;
-
 const Container = styled(motion.div)`
   height: 100%;
   display: flex;
@@ -154,34 +139,6 @@ const DownloadButton = styled(motion.button)`
   &:hover {
     background: #00ff9520;
   }
-`;
-
-const ScrollIndicator = styled.div`
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  animation: ${scrollAnimation} 2s infinite;
-  width: max-content;
-`;
-
-const ScrollText = styled.span`
-  color: #00ff95;
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-  text-align: center;
-  width: 100%;
-`;
-
-const ScrollArrow = styled.div`
-  width: 20px;
-  height: 20px;
-  border-right: 2px solid #00ff95;
-  border-bottom: 2px solid #00ff95;
-  transform: rotate(45deg);
 `;
 
 export default Home;

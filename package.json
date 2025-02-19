@@ -8,8 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy" : "npm run build",
-    "deploy" : "gh-pages -d build"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
@@ -23,6 +23,7 @@
     "react-use-country-region": "^1.0.0",
     "styled-components": "^6.1.15",
     "tsparticles": "^3.8.1",
+    "tsparticles-engine": "^2.12.0",
     "tsparticles-slim": "^2.12.0"
   },
   "devDependencies": {

@@ -4,67 +4,103 @@ import { motion } from 'framer-motion';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useLanguage, translations } from '../contexts/LanguageContext';
 
+// Technology Logo Imports
+import CPlusPlusLogo from '../assets/logos/cpp.svg';
+import CMakeLogo from '../assets/logos/cmake.svg';
+import ReactLogo from '../assets/logos/react.svg';
+import NodeJsLogo from '../assets/logos/nodejs.svg';
+import PostgreSQLLogo from '../assets/logos/postgresql.svg';
+import CLogo from '../assets/logos/c.svg';
+import MakefileLogo from '../assets/logos/makefile.svg';
+
+interface TechnologyLogoMap {
+  [key: string]: string;
+}
+
+const TechnologyLogos: TechnologyLogoMap = {
+  'C++': CPlusPlusLogo,
+  'CMake': CMakeLogo,
+  'React': ReactLogo,
+  'NodeJs Express': NodeJsLogo,
+  'PostgreSQL': PostgreSQLLogo,
+  'C': CLogo,
+  'Makefile': MakefileLogo
+};
+
 interface Project {
   id: number;
   title: {
     en: string;
     fr: string;
     cn: string;
+    kr: string;
   };
   description: {
     en: string;
     fr: string;
     cn: string;
+    kr: string;
   };
   image: string;
   technologies: string[];
+  githubLink: string;
+  projectLink?: string;
 }
 
 const projects: Project[] = [
   {
     id: 1,
     title: {
-      en: 'Shookapic Platform',
-      fr: 'Plateforme Shookapic',
-      cn: 'Shookapic平台'
+      en: 'Ascii Art',
+      fr: 'Ascii Art',
+      cn: 'Ascii Art',
+      kr: 'Ascii 아트'
     },
     description: {
-      en: 'A comprehensive web application for photo management and sharing.',
-      fr: 'Une application web complète pour la gestion et le partage de photos.',
-      cn: '用于照片管理和共享的综合Web应用程序。'
+      en: 'A C++ application to generate ASCII art from video or webcam input.',
+      fr: 'Une application C++ pour générer de l\'art ASCII depuis la vidéo ou la webcam.',
+      cn: '一个使用视频或摄像头输入生成 ASCII 文本的 C++ 应用程序。',
+      kr: 'C++ 프로그램을 사용한 ASCII 아트 생성 프로그램.'
     },
-    image: 'https://via.placeholder.com/800x500.png?text=Project+1',
-    technologies: ['React', 'Firebase', 'TypeScript'],
+    image: 'https://raw.githubusercontent.com/dawsonbooth/ascii-art/master/logo.png',
+    technologies: ['C++', 'CMake'],
+    githubLink: 'https://github.com/Shookapic/ASCII_Art'
   },
   {
     id: 2,
     title: {
-      en: 'Cybersecurity Dashboard',
-      fr: 'Tableau de Bord de Cybersécurité',
-      cn: '网络安全仪表板'
+      en: 'Flowfy',
+      fr: 'Flowfy',
+      cn: 'Flowfy',
+      kr: 'Flowfy'
     },
     description: {
-      en: 'An innovative security monitoring platform with real-time threat detection.',
-      fr: 'Une plateforme innovante de surveillance de la sécurité avec détection de menaces en temps réel.',
-      cn: '具有实时威胁检测的创新安全监控平台。'
+      en: 'An alternative to the famous tool Zapier !',
+      fr: 'Une alternative au fameux outil Zapier !',
+      cn: '一个对zapier的替代品。',
+      kr: 'Zapier의 대신의 약플.'
     },
-    image: 'https://via.placeholder.com/800x500.png?text=Project+2',
-    technologies: ['Vue.js', 'Node.js', 'MongoDB'],
+    image: 'https://cdn.prod.website-files.com/60c0cec90f57824353f55893/63440d4add9f1c05273c8978_11%20best%20task%20automation%20tools%20to%20speed%20up%20your%20scut%20work.webp',
+    technologies: ['React', 'NodeJs Express', 'PostgreSQL'],
+    githubLink: 'https://github.com/Shookapic/Flowfy'
   },
   {
     id: 3,
     title: {
-      en: 'Machine Learning Platform',
-      fr: 'Plateforme d\'Apprentissage Automatique',
-      cn: '机器学习平台'
+      en: 'Minishell',
+      fr: 'Minishell',
+      cn: 'Minishell',
+      kr: 'Minishell'
     },
     description: {
-      en: 'A cutting-edge machine learning platform for predictive analytics.',
-      fr: 'Une plateforme d\'apprentissage automatique de pointe pour l\'analyse prédictive.',
-      cn: '用于预测分析的尖端机器学习平台。'
+      en: 'A minimalistic shell with support for built-in commands and environment variables.',
+      fr: 'Un shell minimaliste avec prise en charge des commandes built-in et des variables d\'environnement.',
+      cn: '一个具有内置命令和环境变量支持的最小化 shell。',
+      kr: '데이터를 가지고 있는 브로드에 따라서 진행되는 브로드의 브로드을 이용한 브로드.'
     },
-    image: 'https://via.placeholder.com/800x500.png?text=Project+3',
-    technologies: ['React Native', 'TensorFlow', 'Python'],
+    image: 'https://bashlogo.com/img/symbol/jpg/full_colored_light.jpg',
+    technologies: ['C', 'Makefile'],
+    githubLink: 'https://github.com/Shookapic/Minishell'
   },
 ];
 
@@ -78,6 +114,10 @@ const Portfolio = () => {
 
   const prevProject = () => {
     setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
+  };
+
+  const handleProjectTitleClick = (githubLink: string) => {
+    window.open(githubLink, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -108,11 +148,23 @@ const Portfolio = () => {
                 />
               </ProjectImageWrapper>
               <ProjectInfo>
-                <ProjectTitle>{projects[currentIndex].title[language]}</ProjectTitle>
+                <ProjectTitle 
+                  onClick={() => handleProjectTitleClick(projects[currentIndex].githubLink)}
+                >
+                  {projects[currentIndex].title[language]}
+                </ProjectTitle>
                 <ProjectDescription>{projects[currentIndex].description[language]}</ProjectDescription>
                 <TechStack>
                   {projects[currentIndex].technologies.map((tech, index) => (
-                    <TechBadge key={index}>{tech}</TechBadge>
+                    <TechBadge key={index}>
+                      {TechnologyLogos[tech] && (
+                        <TechnologyLogo 
+                          src={TechnologyLogos[tech]} 
+                          alt={`${tech} logo`} 
+                        />
+                      )}
+                      {tech}
+                    </TechBadge>
                   ))}
                 </TechStack>
               </ProjectInfo>
@@ -225,6 +277,13 @@ const ProjectTitle = styled.h3`
   font-size: 1.8rem;
   margin-bottom: 1rem;
   color: #00ff95;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #00ffcc;
+    text-decoration: underline;
+  }
 `;
 
 const ProjectDescription = styled.p`
@@ -241,11 +300,19 @@ const TechStack = styled.div`
 `;
 
 const TechBadge = styled.span`
+  display: flex;
+  align-items: center;
   background: rgba(0, 255, 149, 0.1);
   color: #00ff95;
   padding: 0.3rem 0.6rem;
   border-radius: 4px;
   font-size: 0.8rem;
+  gap: 0.5rem;
+`;
+
+const TechnologyLogo = styled.img`
+  width: 20px;
+  height: 20px;
 `;
 
 export default Portfolio;
